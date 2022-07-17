@@ -13,7 +13,7 @@ public class Trail {
     private final float trailSize;
     
     public Trail(float disappearSpeed, float trailSize) {
-        this.trail = new ConcurrentHashMap<>();
+        this.trail = new HashMap<>();
         this.disappearSpeed = disappearSpeed;
         this.trailSize = trailSize;
     }
