@@ -1,9 +1,11 @@
-package slimesim.data;
+package slimesim.obj;
 
 import processing.core.PVector;
 import slimesim.SlimeSimulation;
+import slimesim.data.ReferencedFloat;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Trail {
     private final Map<ReferencedFloat, PVector> trail;
@@ -11,7 +13,7 @@ public class Trail {
     private final float trailSize;
     
     public Trail(float disappearSpeed, float trailSize) {
-        this.trail = new HashMap<>();
+        this.trail = new ConcurrentHashMap<>();
         this.disappearSpeed = disappearSpeed;
         this.trailSize = trailSize;
     }
@@ -38,8 +40,10 @@ public class Trail {
     public void render(SlimeSimulation simulation) {
         for (ReferencedFloat f : trail.keySet()) {
             PVector p = trail.get(f);
+            if (p == null) continue;
+            simulation.noStroke();
             simulation.fill(255, 255, 255, 255 * f.getValue());
-            simulation.ellipse(p.x, p.y, trailSize, trailSize);
+            simulation.ellipse(p.x, p.y, trailSize * f.getValue(), trailSize * f.getValue());
         }
     }
 }
